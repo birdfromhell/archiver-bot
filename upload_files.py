@@ -34,7 +34,7 @@ async def only_pm(handler, event):
 
 @router.message(text.commands("start", prefixes="/") & (State.exact(States.state_waiting) | State.entry))
 async def response(event):
-    await event.reply("سلام.\nبرای استفاده از این ابتدا دستور /start را تایپ کرده و سپس فایل های مورد نظرتان را به این بات فوروارد کنید.\nدر پایان دستور /done را تایپ نمایید تا همه فایل های فوروارد شئه را به یک فایل زیپ تبدیل شوند. ")
+    await event.reply("Hi Saya Adalah Simple Archiver Bot\n Untuk menggunakan ini, pertama ketik perintah  /start lalu Kirim atau Forward file yang Anda inginkan Dijadikan File .zip ke bot ini. Setelah Semua file Telah Di Kirim lalu kirim Perintah /done \n\n Karena Pembatasan Telegram Maximun File sixe adalah 2GB ")
     fsm = ctx.CageCtx.get()  # get UserCage of current user
 
     await fsm.set_state(States.state_uploading)
@@ -50,7 +50,7 @@ async def response(event):
 async def finished(event):
     fsm = ctx.CageCtx.get()  # get UserCage of current user
     await fsm.set_state(States.state_naming)
-    await event.reply("Please Choose a name for the ZIP file. (no extensions)")
+    await event.reply("Silahkan Kirim Nama Baru Untuk File ZIP. (Tanpa extensions)")
 
 
 @router.message(State.exact(States.state_naming))
@@ -66,7 +66,7 @@ async def naming(event):
             for file in files:
                 path = await event.client.download_media(file, file=tmp_dirname)
                 zipObj2.write(path, basename(path))
-        await msg.edit(f"Finished uploading {len(files)} files. Uploading zip file..")
+        await msg.edit(f"Berhasil Di upload {len(files)} files. Uploading zip file..")
         await event.reply(file=f'{tmp_dirname}/{event.text}.zip')
     await fsm.set_data({"files": []})
 
@@ -79,10 +79,10 @@ async def uploading(event):
         files = data['files']
         files.append(event.message.media)
         await fsm.set_data(data)
-        await event.reply(f"Saved {len(files)} so far!")
+        await event.reply(f"{len(files)} Telah Di Terima")
 
     else:
-        await event.reply("Please send a file or /done to finish")
+        await event.reply("Kirim File atau /done Untuk selesai")
 
 
 def default_conf_maker() -> RuntimeConfig:
